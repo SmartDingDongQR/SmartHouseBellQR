@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tocar Timbre</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
+    }
+    #boton-timbre {
+      background-color: #ff0000;
+      color: #ffffff;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <button id="boton-timbre">Tocar Timbre</button>
+  
+  <script>
+    // Reemplaza 'YOUR_ACCESS_TOKEN' con tu token de acceso de Pushbullet
+    const accessToken = 'o.e9nvPou4uOfPL3e3j5hqGkU7uRzVext1'; // Tu token de acceso aquí
+
+    const enviarNotificacionBtn = document.getElementById('boton-timbre');
+    enviarNotificacionBtn.addEventListener('click', enviarNotificacion);
+
+    function enviarNotificacion() {
+      const notificationTitle = 'Tocaron el Timbre';
+      const notificationBody = 'Hay alguien afuera de tu casa.';
+
+      const notificationData = {
+        type: 'note',
+        title: notificationTitle,
+        body: notificationBody
+      };
+
+      const pushbulletURL = 'https://api.pushbullet.com/v2/pushes';
+
+      fetch(pushbulletURL, {
+        method: 'POST',
+        headers: {
+          'Access-Token': accessToken,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(notificationData)
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Notificación enviada:', data);
+        alert('Notificación enviada a tu smartphone.');
+      })
+      .catch(error => {
+        console.error('Error al enviar notificación:', error);
+      });
+    }
+  </script>
+</body>
+</html>
